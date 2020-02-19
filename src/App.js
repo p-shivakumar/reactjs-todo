@@ -34,6 +34,10 @@ class App extends React.Component {
     });    
   }
 
+  test() {
+    console.log("test");
+  }
+
   createNewTask() {
     fetch('http://localhost:8080/api/v1/todos', {
       method: 'POST',
