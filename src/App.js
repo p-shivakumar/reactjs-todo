@@ -1,10 +1,10 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {todoList: [], task: ''};
+    this.state = {todoList: [], task: ""};
   }
 
   componentDidMount() {
@@ -12,10 +12,10 @@ class App extends React.Component {
   }
 
   getAllTask() {
-    fetch('http://localhost:8080/api/v1/todos', {
+    fetch("http://localhost:8080/api/v1/todos", {
       headers: {
-        'Content-Type': 'application/json',
-        'App': 'ReactJS'
+        "Content-Type": "application/json",
+        "App": "ReactJS"
       }
     })
     .then(res => res.json())
@@ -34,41 +34,37 @@ class App extends React.Component {
     });    
   }
 
-  test() {
-    console.log("test");
-  }
-
   createNewTask() {
-    fetch('http://localhost:8080/api/v1/todos', {
-      method: 'POST',
+    fetch("http://localhost:8080/api/v1/todos", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'App': 'ReactJS'
+        "Content-Type": "application/json",
+        "App": "ReactJS"
       },
       body: JSON.stringify({task: this.state.task})
     })
     .then(res => res.json())
     .then(res => {
       this.getAllTask();
-      this.setState((state, props) => ({ todoList: state.todoList, task: ''}));
+      this.setState((state, props) => ({ todoList: state.todoList, task: ""}));
     })
     .catch(error => console.log(error));
   }
 
   handleKeyPress(event) {
     if (event.charCode === 13) {
-      fetch('http://localhost:8080/api/v1/todos', {
-        method: 'POST',
+      fetch("http://localhost:8080/api/v1/todos", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'App': 'ReactJS'
+          "Content-Type": "application/json",
+          "App": "ReactJS"
         },
         body: JSON.stringify({task: event.target.value})
       })
       .then(res => res.json())
       .then(res => {
         this.getAllTask();
-        this.setState((state, props) => ({ todoList: state.todoList, task: ''}));
+        this.setState((state, props) => ({ todoList: state.todoList, task: ""}));
       })
       .catch(error => console.log(error));
     }
@@ -79,12 +75,12 @@ class App extends React.Component {
   }
 
   toggleTaskStatus(taskId, task, event) {
-    const status = (event.target.checked) ? 'COMPLETED' : 'PENDING';
+    const status = (event.target.checked) ? "COMPLETED" : "PENDING";
     fetch(`http://localhost:8080/api/v1/todos/${taskId}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'App': 'ReactJS'
+        "Content-Type": "application/json",
+        "App": "ReactJS"
       },
       body: JSON.stringify({task: task, status: status})
     })
@@ -95,10 +91,10 @@ class App extends React.Component {
 
   removeTask(taskId) {
     fetch(`http://localhost:8080/api/v1/todos/${taskId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        'App': 'ReactJS'
+        "Content-Type": "application/json",
+        "App": "ReactJS"
       }
     })
     .then(res => res.json())
@@ -119,10 +115,10 @@ class App extends React.Component {
                 <div className="todo-list-item" key={item.id}>
                   <div>
                     <label className="custom-checkbox">&nbsp;
-                      <input type="checkbox" name={item.id} checked={item.status === 'COMPLETED'} onChange={e => this.toggleTaskStatus(item.id, item.task, e)} />
+                      <input type="checkbox" name={item.id} checked={item.status === "COMPLETED"} onChange={e => this.toggleTaskStatus(item.id, item.task, e)} />
                       <span className="checkmark"></span>
                     </label>
-                    <span className={item.status === 'COMPLETED' ? "strike-through" : ""}>{ item.task }</span>
+                    <span className={item.status === "COMPLETED" ? "strike-through" : ""}>{ item.task }</span>
                   </div>
                   <div>
                     <span onClick={e => this.removeTask(item.id)}>&times;</span>
